@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: djangoprom
+  labels:
+    app: djangoprom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: djangoprom
+  template:
+    metadata:
+      labels:
+        app: djangoprom
+    spec:
+      containers:
+        - name: djangoprom
+          imagePullPolicy: Never
+          image: djprom  #18011998/rest-backend   #  18011998/django
+          command: ['/bin/bash', 'run.sh'] # runs migrations and starts the server
+          ports:
+            - containerPort: 8000
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: user
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+
+            - name: POSTGRES_HOST
+              value: postgres-service
+            
+            - name: DJANGO_ALLOWED_HOSTS
+              valueFrom:
+                configMapKeyRef: 
+                  name: hello-config
+                  key: DJANGO_ALLOWED_HOSTS
+
+            - name: DEBUG
+              valueFrom:
+                configMapKeyRef: 
+                  name: hello-config
+                  key: DEBUG
+
+            - name: DATABASE_ENGINE
+              valueFrom:
+                configMapKeyRef: 
+                  name: hello-config
+                  key: DATABASE_ENGINE
+
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef: 
+                  name: hello-config
+                  key: APP_NAME

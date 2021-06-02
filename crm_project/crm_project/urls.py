@@ -1,0 +1,8 @@
+from django.contrib import admin
+from django.urls import path, include #new
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('customer/', include('customer.urls')), #new
+    path('', include('django_prometheus.urls')),
+]

@@ -1,0 +1,49 @@
+# Default values for new-postgres.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+
+image: postgres:13
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+
+service:  
+  type: ClusterIP
+  port: 5432
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+      - path: /
+        backend:
+          serviceName: chart-example.local
+          servicePort: 80
+
+
+externalPostgres:
+  postgresqlUsername: django
+  postgresqlPassword: 1a26d1g26d1gesb?e7desb?e7d
+  postgresqlDatabase: crm_project
+  postgresqlHost: postgres-service
+  postgresqlPort: "5432"
+
+metrics:
+  serviceMonitor: 
+    enabled: true

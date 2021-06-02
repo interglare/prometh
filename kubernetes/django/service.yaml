@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: djangoprom
+  labels: 
+    app: djangoprom
+spec:
+  selector:
+    app: djangoprom
+  ports:
+  - port: 8000
+    targetPort: web
+    protocol: TCP
+    name: web
+  type: NodePort

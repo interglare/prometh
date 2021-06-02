@@ -1,0 +1,6 @@
+django
+django-rest-framework
+psycopg2-binary
+gunicorn
+django-cors-headers
+django-prometheus
